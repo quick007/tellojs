@@ -2,18 +2,15 @@ import options from "../options.json" assert { type: "json" }
 
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
-const socket = Deno.listenDatagram({
+const addr = {
 	transport: "udp",
 	port: options.telloport,
 	hostname: options.telloip
-})
+} as const
+const socket = Deno.listenDatagram(addr);
 
 for await (const data of socket) {
-	const message = decoder.decode(data[0])
-	console.log(message);
+	console.log(decoder.decode(data[0]))
 }
 
-for (const command of ["command", "battery"]) {
-	const data = encoder.encode(command)
-	await socket.send(data, socket.addr);
-}
+socket.send(encoder.encode("command"), addr)
