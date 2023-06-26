@@ -1,10 +1,16 @@
 import {
 	emergency,
+	flip,
+	goto,
 	land,
+	rotate,
+	speed,
 	takeOff,
 	wait,
+	wifi,
 	xMovement,
 	yMovement,
+	zMovement,
 } from "./cmds/mod.ts";
 import { dgram } from "./deps.ts";
 import { decode, encode } from "./lib/text.ts";
@@ -14,8 +20,14 @@ export default class DroneController {
 	public wait = wait;
 	public xMovement = xMovement;
 	public yMovement = yMovement;
+	public zMovement = zMovement;
 	public land = land;
 	public emergency = emergency;
+	public flip = flip;
+	public goto = goto;
+	public rotate = rotate;
+	public speed = speed;
+	public wifi = wifi;
 
 	readonly options: Options;
 	public socket!: dgram.Socket;
