@@ -1,41 +1,24 @@
 import options from "./options.json" assert { type: "json" };
 import DroneController from "../src/mod.ts";
 
+// Start by creating a drone object
 const drone = new DroneController(options);
 
+// Next, connect to the drone
 await drone.connect();
+
+// You can queue up commands by using the enqueue function, which will run once the previous one has completed
 await drone.enqueue(
 	drone.takeOff(),
-	//drone.xMovement(100),
 	drone.yMovement(70),
+	// Need your drone to take a quick break? No problem!
 	drone.wait(5000),
 	drone.yMovement(30),
 );
-// await drone.enqueue(
-// 	drone.xMovement(100)
-// )
+// You can even use multiple enqueues, so feel free to abstract or componitize however
+await drone.enqueue(
+	drone.xMovement(100)
+)
+
+// Disconnecting automagically turns off the websocket connection and lands the drone, then exits the Deno process
 await drone.disconnect();
-
-//drone.enqueue(drone.xMovement(100))
-
-// for await (const conn of server) {
-//   serveHttp(conn);
-// }
-
-// async function serveHttp(conn: Deno.Conn) {
-//   const httpConn = Deno.serveHttp(conn);
-//   for await (const requestEvent of httpConn) {
-//     // The native HTTP server uses the web standard `Request` and `Response`
-//     // objects.
-//     const body = `Your user-agent is:\n\n${
-//       requestEvent.request.headers.get("user-agent") ?? "Unknown"
-//     }`;
-//     // The requestEvent's `.respondWith()` method is how we send the response
-//     // back to the client.
-//     requestEvent.respondWith(
-//       new Response(body, {
-//         status: 200,
-//       }),
-//     );
-//   }
-// }
