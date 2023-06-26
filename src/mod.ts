@@ -1,4 +1,4 @@
-import { takeOff, wait, xMovement, land } from "./cmds/mod.ts";
+import { takeOff, wait, xMovement, land, emergency } from "./cmds/mod.ts";
 import { dgram } from "./deps.ts";
 import { encode } from "./lib/text.ts";
 
@@ -7,6 +7,7 @@ export default class DroneController {
 	public wait = wait;
 	public xMovement = xMovement
 	public land = land
+	public emergency = emergency
 
   readonly options: Options;
   public socket!: dgram.Socket;
@@ -29,12 +30,20 @@ export default class DroneController {
 		this.enqueue(() => this.socket.send(encode("command"), this.options.telloPort, this.options.telloIP))
     await this.waitForQueueToFinish();
 		
-			console.log("Connected to tello!")
+			console.log("Connected to Tello!")
 		
     if (this.options.webserver) {
       this.webServer = Deno.listen({ port: this.options.webserver });
     }
   }
+
+	public disconnect() {
+		this.events = []
+		this.enqueue(this.emergency())
+		this.socket.disconnect()
+		this.webServer.close()
+		Deno.exit()
+	}
 
   enqueue(...cmds: (() => void)[]) {
     this.events.push(...cmds);
@@ -60,14 +69,17 @@ export default class DroneController {
       }
       return;
     }
-    console.log("Starting to execute command")
+		(this.options.enhancedLogging &&
+    console.log("Starting to execute command"))
     const [_, res] = await Promise.all([
       await cmd(),
       await new Promise<string>((resolve) => {
         this.socket.once("message", (msg: string) => {
-					console.log("started to resolve msg from server")
+					(this.options.enhancedLogging &&
+					console.log("started to resolve msg from server"))
           resolve(msg);
-					console.log("resolved msg from server")
+					(this.options.enhancedLogging &&
+					console.log("resolved msg from server"))
         });
       })
     ]);
@@ -75,7 +87,9 @@ export default class DroneController {
 		if (res == "error") {
 			throw new Error("Command failed to execute")
 		}
-    console.log("Execeuted function")
+		(this.options.enhancedLogging &&
+    console.log("Execeuted function"))
+    await new Promise((resolve) => setTimeout(resolve, this.options.wait ?? 0));
 		this.eventLoop();
 	}
 }
@@ -87,4 +101,5 @@ interface Options {
   telloStatePort: number;
   telloVideoPort: number;
   enhancedLogging: boolean;
+	wait?: number 
 }

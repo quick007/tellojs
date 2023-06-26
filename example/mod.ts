@@ -6,11 +6,10 @@ const drone = new DroneController(options);
 await drone.connect();
 drone.enqueue(
   drone.takeOff(),
-  drone.wait(5000),
   drone.xMovement(100),
-  drone.wait(5000),
   drone.land()
 );
+drone.disconnect()
 
 //drone.enqueue(drone.xMovement(100))
 
