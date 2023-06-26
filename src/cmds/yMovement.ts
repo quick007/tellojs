@@ -4,9 +4,13 @@ import DroneController from "../mod.ts";
 let height = 20;
 
 export function yMovement(this: DroneController, move: number) {
-  if (move < 20) {
-	throw new Error("Minimum height is 20cm");
-  }
-  const to = height >= move ? `down ${move}` : `up ${move}`;
-  return () => this.socket.send(encode(to), this.options.telloPort, this.options.telloIP);
+	const finalHeight = move + height;
+	if (500 < finalHeight || finalHeight < 20) {
+		throw new Error(
+			"The final height value must be between or equal to 20 and 500",
+		);
+	}
+	const to = height >= move ? `down ${move * -1}` : `up ${move}`;
+	return () =>
+		this.socket.send(encode(to), this.options.telloPort, this.options.telloIP);
 }

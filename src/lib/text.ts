@@ -1,4 +1,4 @@
-const encoder = new TextEncoder()
+const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 
 export const encode = (text: string) => encoder.encode(text);

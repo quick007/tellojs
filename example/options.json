@@ -1,9 +1,8 @@
 {
-  "telloIP": "192.168.10.1",
-  "telloPort": 8889,
-  "webserver": 3000,
-  "telloStatePort": 8890,
-  "telloVideoPort": 8890,
-	"enhancedLogging": true,
-  "wait": 5000
+	"telloIP": "192.168.10.1",
+	"telloPort": 8889,
+	"webserver": 3000,
+	"telloStatePort": 8890,
+	"telloVideoPort": 8890,
+	"enhancedLogging": true
 }

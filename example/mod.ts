@@ -5,11 +5,16 @@ const drone = new DroneController(options);
 
 await drone.connect();
 await drone.enqueue(
-  drone.takeOff(),
-  drone.xMovement(100),
-  drone.land()
+	drone.takeOff(),
+	//drone.xMovement(100),
+	drone.yMovement(70),
+	drone.wait(5000),
+	drone.yMovement(30),
 );
-await drone.disconnect()
+// await drone.enqueue(
+// 	drone.xMovement(100)
+// )
+await drone.disconnect();
 
 //drone.enqueue(drone.xMovement(100))
 
