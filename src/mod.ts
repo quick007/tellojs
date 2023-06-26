@@ -13,24 +13,18 @@ export default class DroneController {
   public state: string;
 	public events: (() => void)[] = [];
   private isEventLoopRunning = false;
+  private resolveQueue: (() => void)[] = [];
 
   constructor(options: Options) {
     this.options = options;
     this.state = "";
   }
 
-  connect() {
+  async connect() {
     console.log("Connecting...");
     this.socket = dgram.createSocket({ type: "udp4" });
     this.socket.bind(this.options.telloStatePort);
     console.log("Created socket...");
-		this.enqueue(() => this.socket.send(encode("command"), this.options.telloPort, this.options.telloIP))
-		if (this.events.length == 0) {
-			console.log("Connected to tello!")
-		}
-    if (this.options.webserver) {
-      this.webServer = Deno.listen({ port: this.options.webserver });
-    }
     this.socket.on("message", (msg: string) => {
       if (msg.startsWith("pitch")) {
         this.state = msg;
@@ -40,6 +34,14 @@ export default class DroneController {
         console.log(msg);
       }
     });
+		this.enqueue(() => this.socket.send(encode("command"), this.options.telloPort, this.options.telloIP))
+    await this.waitForQueueToFinish();
+		if (this.events.length == 0) {
+			console.log("Connected to tello!")
+		}
+    if (this.options.webserver) {
+      this.webServer = Deno.listen({ port: this.options.webserver });
+    }
   }
 
   enqueue(...cmds: (() => void)[]) {
@@ -49,12 +51,21 @@ export default class DroneController {
     }
 	}
 
+  public async waitForQueueToFinish() {
+    return new Promise<void>((resolve) => {
+      this.resolveQueue.push(resolve);
+    });
+  }
+
 	private async eventLoop() {
     this.isEventLoopRunning = true;
     const cmd = this.events.shift();
 
     if (cmd == undefined) {
       this.isEventLoopRunning = false;
+      for (const resolve of this.resolveQueue) {
+        resolve();
+      }
       return;
     }
     
