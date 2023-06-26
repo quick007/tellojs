@@ -8,8 +8,10 @@ First, make sure you have Deno installed. Learn how to [here](https://deno.com/m
 If you have the vscode extension, open the command palette and run `> Deno: initialize workspace configuration`, and say yes to the promps
 
 Next, create a file called mod.ts like this:
+Replace insert version with the version when you go [here](https://deno.land/x/tellojs@v1.0.2).
 ```ts
 // mod.ts
+import DroneController from "https://deno.land/x/tellojs@INSERT_VERSION/mod.ts";
 
 const drone = new DroneController();
 
