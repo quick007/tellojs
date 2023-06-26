@@ -1,10 +1,10 @@
-import { takeOff } from "./cmds/index.ts";
-import { wait } from "./cmds/wait.ts";
+import { takeOff, wait, xMovement } from "./cmds/mod.ts";
 import { dgram } from "./deps.ts";
 
 export default class DroneController {
   public takeOff = takeOff;
-	public wait = wait
+	public wait = wait;
+	public xMovement = xMovement
 
   readonly options: Options;
   public socket!: dgram.Socket;
