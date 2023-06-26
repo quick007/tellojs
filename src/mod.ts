@@ -25,20 +25,11 @@ export default class DroneController {
     this.socket = dgram.createSocket({ type: "udp4" });
     this.socket.bind(this.options.telloStatePort);
     console.log("Created socket...");
-    this.socket.on("message", (msg: string) => {
-      if (msg.startsWith("pitch")) {
-        this.state = msg;
-        return;
-      }
-      if (this.options.enhancedLogging == true) {
-        console.log(msg);
-      }
-    });
 		this.enqueue(() => this.socket.send(encode("command"), this.options.telloPort, this.options.telloIP))
     await this.waitForQueueToFinish();
-		if (this.events.length == 0) {
+		
 			console.log("Connected to tello!")
-		}
+		
     if (this.options.webserver) {
       this.webServer = Deno.listen({ port: this.options.webserver });
     }
@@ -68,12 +59,15 @@ export default class DroneController {
       }
       return;
     }
-    
-    const [_, res] = await Promise.all([
+    console.log("Starting to execute command")
+    const [_, _t, res] = await Promise.all([
       await cmd(),
+			console.log("Ran command"),
       await new Promise<string>((resolve) => {
         this.socket.once("message", (msg: string) => {
+					console.log("started to resolve msg from server")
           resolve(msg);
+					console.log("resolved msg from server")
         });
       })
     ]);
@@ -81,7 +75,7 @@ export default class DroneController {
 		if (res == "error") {
 			throw new Error("Command failed to execute")
 		}
-    
+    console.log("Execeuted function")
 		this.eventLoop();
 	}
 }

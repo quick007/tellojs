@@ -3,8 +3,9 @@ import DroneController from "../src/mod.ts";
 
 const drone = new DroneController(options)
 
-drone.connect()
-drone.enqueue(drone.takeOff(), drone.wait(1000), drone.xMovement(50), drone.xMovement(-50))
+await drone.connect()
+drone.enqueue(drone.takeOff())
+//drone.enqueue(drone.xMovement(100))
 
 
 // for await (const conn of server) {
