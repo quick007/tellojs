@@ -15,6 +15,7 @@ import {
 } from "./cmds/mod.ts";
 import { dgram } from "./deps.ts";
 import { decode, encode } from "./lib/text.ts";
+import defaultOptions from "./defaultOptions.json" assert { type: "json" };
 
 export default class DroneController {
 	public takeOff = takeOff;
@@ -40,8 +41,8 @@ export default class DroneController {
 	private resolveQueue: (() => void)[] = [];
 	private allowWait = false;
 
-	constructor(options: Options) {
-		this.options = options;
+	constructor(options?: Options) {
+		this.options = options || defaultOptions;
 		this.state = "";
 	}
 
