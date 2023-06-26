@@ -1,5 +1,6 @@
 import { takeOff, wait, xMovement } from "./cmds/mod.ts";
 import { dgram } from "./deps.ts";
+import { encode } from "./lib/text.ts";
 
 export default class DroneController {
   public takeOff = takeOff;
@@ -22,7 +23,11 @@ export default class DroneController {
     console.log("Connecting...");
     this.socket = dgram.createSocket({ type: "udp4" });
     this.socket.bind(this.options.telloStatePort);
-    console.log("Connected to tello!");
+    console.log("Created socket...");
+		this.enqueue(() => this.socket.send(encode("command"), this.options.telloPort, this.options.telloIP))
+		if (this.events.length == 0) {
+			console.log("Connected to tello!")
+		}
     if (this.options.webserver) {
       this.webServer = Deno.listen({ port: this.options.webserver });
     }
