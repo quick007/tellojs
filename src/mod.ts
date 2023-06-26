@@ -37,19 +37,21 @@ export default class DroneController {
     }
   }
 
-	public disconnect() {
+	async disconnect() {
 		this.events = []
 		this.enqueue(this.emergency())
+		await this.waitForQueueToFinish();
 		this.socket.disconnect()
 		this.webServer.close()
 		Deno.exit()
 	}
 
-  enqueue(...cmds: (() => void)[]) {
+  async enqueue(...cmds: (() => void)[]) {
     this.events.push(...cmds);
     if (!this.isEventLoopRunning) {
       this.eventLoop();
     }
+		await this.waitForQueueToFinish();
 	}
 
   public waitForQueueToFinish() {
