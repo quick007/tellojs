@@ -1,4 +1,5 @@
 import { emergency } from "./emergency.ts";
+import { execute } from "./execute.ts";
 import { flip } from "./flip.ts";
 import { goto } from "./goto.ts";
 import { land } from "./land.ts";
@@ -13,6 +14,7 @@ import { zMovement } from "./zMovement.ts";
 
 export {
 	emergency,
+	execute,
 	flip,
 	goto,
 	land,

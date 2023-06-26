@@ -1,5 +1,6 @@
 import {
 	emergency,
+	execute,
 	flip,
 	goto,
 	land,
@@ -28,6 +29,7 @@ export default class DroneController {
 	public rotate = rotate;
 	public speed = speed;
 	public wifi = wifi;
+	public execute = execute;
 
 	readonly options: Options;
 	public socket!: dgram.Socket;
