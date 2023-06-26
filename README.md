@@ -55,7 +55,7 @@ Here is the list of commands you can send the drone:
 - yMovement: Move up and down
 - zMovement: Move left or right
 
-You can also view specifics about the commands [here](https://deno.land/x/tellojs@v1.0.2/src/cmds/mod.ts)
+You can also view specifics about the commands (and see a more up-to-date list too) [here](https://deno.land/x/tellojs@v1.0.2/src/cmds/mod.ts)
 
 Note that we don't support all the commands related to mission pads. Use the `execute()` function to send your own commands to the drone. A full list of the commands is available on the [SDK 2.0 User Guide](https://dl-cdn.ryzerobotics.com/downloads/Tello/Tello%20SDK%202.0%20User%20Guide.pdf).
 
