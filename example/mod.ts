@@ -1,26 +1,32 @@
-import options from "../options.json" assert { type: "json" }
-import * as dgram from "https://deno.land/std@0.170.0/node/dgram.ts";
+import options from "./options.json" assert { type: "json" }
+import DroneController from "../src/mod.ts";
 
-const encoder = new TextEncoder();
-const decoder = new TextDecoder();
-const addr = {
-	transport: "udp",
-	port: options.telloport,
-	hostname: options.telloip
-} as const
+const drone = new DroneController(options)
 
-const socket = dgram.createSocket({ type: "udp4" })
+drone.connect()
+drone.enqueue(drone.takeOff, () => drone.wait(1000))
 
-socket.bind(8890, options.telloip);
 
-socket.on("message", (msg) => console.log(msg))
-
-socket.send(encoder.encode("command"), options.telloport, options.telloip)
-
-// const socket = Deno.listenDatagram(addr);
-
-// for await (const data of socket) {
-// 	console.log(decoder.decode(data[0]))
+// for await (const conn of server) {
+//   serveHttp(conn);
 // }
 
-// socket.send(encoder.encode("command"), addr)
+
+
+// async function serveHttp(conn: Deno.Conn) {
+//   const httpConn = Deno.serveHttp(conn);
+//   for await (const requestEvent of httpConn) {
+//     // The native HTTP server uses the web standard `Request` and `Response`
+//     // objects.
+//     const body = `Your user-agent is:\n\n${
+//       requestEvent.request.headers.get("user-agent") ?? "Unknown"
+//     }`;
+//     // The requestEvent's `.respondWith()` method is how we send the response
+//     // back to the client.
+//     requestEvent.respondWith(
+//       new Response(body, {
+//         status: 200,
+//       }),
+//     );
+//   }
+// }
