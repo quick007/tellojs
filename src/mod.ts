@@ -1,4 +1,4 @@
-import { takeOff, wait, xMovement } from "./cmds/mod.ts";
+import { takeOff, wait, xMovement, land } from "./cmds/mod.ts";
 import { dgram } from "./deps.ts";
 import { encode } from "./lib/text.ts";
 
@@ -6,6 +6,7 @@ export default class DroneController {
   public takeOff = takeOff;
 	public wait = wait;
 	public xMovement = xMovement
+	public land = land
 
   readonly options: Options;
   public socket!: dgram.Socket;
@@ -42,7 +43,7 @@ export default class DroneController {
     }
 	}
 
-  public async waitForQueueToFinish() {
+  public waitForQueueToFinish() {
     return new Promise<void>((resolve) => {
       this.resolveQueue.push(resolve);
     });
@@ -60,9 +61,8 @@ export default class DroneController {
       return;
     }
     console.log("Starting to execute command")
-    const [_, _t, res] = await Promise.all([
+    const [_, res] = await Promise.all([
       await cmd(),
-			console.log("Ran command"),
       await new Promise<string>((resolve) => {
         this.socket.once("message", (msg: string) => {
 					console.log("started to resolve msg from server")

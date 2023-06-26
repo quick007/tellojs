@@ -1,18 +1,22 @@
-import options from "./options.json" assert { type: "json" }
+import options from "./options.json" assert { type: "json" };
 import DroneController from "../src/mod.ts";
 
-const drone = new DroneController(options)
+const drone = new DroneController(options);
 
-await drone.connect()
-drone.enqueue(drone.takeOff())
+await drone.connect();
+drone.enqueue(
+  drone.takeOff(),
+  drone.wait(5000),
+  drone.xMovement(100),
+  drone.wait(5000),
+  drone.land()
+);
+
 //drone.enqueue(drone.xMovement(100))
-
 
 // for await (const conn of server) {
 //   serveHttp(conn);
 // }
-
-
 
 // async function serveHttp(conn: Deno.Conn) {
 //   const httpConn = Deno.serveHttp(conn);
