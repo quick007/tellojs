@@ -1,1 +1,3 @@
-export * from "./src/mod.ts";
+import DroneController from "./src/mod.ts";
+
+export default DroneController;
