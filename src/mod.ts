@@ -68,6 +68,7 @@ export default class DroneController {
 		await this.waitForQueueToFinish();
 
 		console.log("Connected to Tello!");
+		console.log("Starting script!")
 		this.allowWait = true;
 
 		if (this.options.webserver) {
@@ -83,6 +84,7 @@ export default class DroneController {
 		this.socket.removeAllListeners();
 		this.socket.close();
 		this.webServer.close();
+		console.log("Script Finished!")
 		Deno.exit();
 	}
 
