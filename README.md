@@ -9,7 +9,7 @@ If you have the vscode extension, open the command palette and run `> Deno: init
 
 Next, create a file called mod.ts like this:
 
-Replace insert version with the version when you go [here](https://deno.land/x/tellojs@latest). (i.e. v1.1.0)
+Replace insert version with the version when you go [here](https://deno.land/x/tellojs). (i.e. v1.1.0, it'll say in the url and on the sidebar)
 ```ts
 // mod.ts
 import DroneController from "https://deno.land/x/tellojs@INSERT_VERSION/mod.ts";
