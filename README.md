@@ -1,5 +1,5 @@
 # Tellojs!
-The easy-to-use javascript (uses ts) library for tello drones.
+The easy-to-use javascript (uses ts) library for tello drones. If this repository helps you in any way, please consider starring it.
 
 ## Quick Start
 
