@@ -23,7 +23,7 @@ await drone.enqueue(
 await drone.disconnect();
 ```
 
-Run the file with `deno run -A mod.ts`
+Run the file with `deno run -A --unstable mod.ts`
 
 By default, it'll connect to the drone based on these [options](https://github.com/quick007/tellojs/blob/v1.0.2/src/defaultoptions.json). You can pass different connection ports and whatnot in JSON to the drone controller. The code itself is pretty self-explanatory- it connects to the drone, queues the takeoff command, then lands and disconnects the drone via `drone.disconnect()`. 
 

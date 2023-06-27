@@ -4,5 +4,6 @@
 	"webserver": 3000,
 	"telloStatePort": 8890,
 	"telloVideoPort": 8890,
-	"enhancedLogging": false
+	"enhancedLogging": false,
+	"wait": 0
 }
