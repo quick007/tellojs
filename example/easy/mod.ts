@@ -1,5 +1,5 @@
 import options from "./options.json" assert { type: "json" };
-import DroneController from "../src/mod.ts";
+import DroneController from "../../src/mod.ts";
 
 // Start by creating a drone object
 const drone = new DroneController(options);
