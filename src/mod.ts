@@ -13,9 +13,9 @@ import {
 	yMovement,
 	zMovement,
 } from "./cmds/mod.ts";
+import { defaultOptions } from "./defaultoptions.ts";
 import { dgram } from "./deps.ts";
 import { decode, encode } from "./lib/text.ts";
-import defaultOptions from "./defaultOptions.json" assert { type: "json" };
 
 export default class DroneController {
 	public takeOff = takeOff;
