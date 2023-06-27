@@ -1,5 +1,5 @@
 # Tellojs!
-The easy-to-use javascript (uses ts) library for tello drones.
+The easy-to-use javascript (uses ts) library for tello drones. If this repository helps you in any way, please consider starring it.
 
 ## Quick Start
 
@@ -9,7 +9,7 @@ If you have the vscode extension, open the command palette and run `> Deno: init
 
 Next, create a file called mod.ts like this:
 
-Replace insert version with the version when you go [here](https://deno.land/x/tellojs@latest). (i.e. v1.0.3)
+Replace insert version with the version when you go [here](https://deno.land/x/tellojs). (i.e. v1.1.0, it'll say in the url and on the sidebar)
 ```ts
 // mod.ts
 import DroneController from "https://deno.land/x/tellojs@INSERT_VERSION/mod.ts";
@@ -25,7 +25,7 @@ await drone.disconnect();
 
 Run the file with `deno run -A --unstable mod.ts`
 
-By default, it'll connect to the drone based on these [options](https://github.com/quick007/tellojs/blob/v1.0.2/src/defaultoptions.json). You can pass different connection ports and whatnot in JSON to the drone controller. The code itself is pretty self-explanatory- it connects to the drone, queues the takeoff command, then lands and disconnects the drone via `drone.disconnect()`. 
+By default, it'll connect to the drone based on these [options](https://github.com/quick007/tellojs/blob/v1.1.0/src/defaultoptions.json). You can pass different connection ports and whatnot in JSON to the drone controller. The code itself is pretty self-explanatory- it connects to the drone, queues the takeoff command, then lands and disconnects the drone via `drone.disconnect()`. 
 
 The enqueue command is pretty important, as it ensures that commands are running once the previous command has been ran, rather than relying on time. You can even stack multiple enqueue commands, or abstract it out into a file or loop. That being said, time isn't out of the question. For example:
 

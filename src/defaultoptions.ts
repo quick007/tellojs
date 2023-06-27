@@ -1,4 +1,4 @@
-{
+export const defaultOptions = {
 	"telloIP": "192.168.10.1",
 	"telloPort": 8889,
 	"webserver": 3000,
